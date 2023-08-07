@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pharmacy Management System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+    <body>
+
+        <div class="header">
+            <h1><img src="{{ url_for('static', filename='icon-pharmaco.png') }}" alt="PharmaCO Icon">PharmaCO</h1>
+
+            <!-- Navigation buttons -->
+            <nav>
+                <ul class="navbar">
+                    <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
+                    <li><a href="{{ url_for('display_inventory') }}"><i
+                                class="fa-solid fa-truck-medical"></i>Inventory</a></li>
+                    <li><a href="{{ url_for('add_medicine') }}"><i class="fas fa-plus"></i> Add Medicine</a></li>
+                    <li><a href="{{ url_for('generate_report') }}"><i class="fa-solid fa-book-medical"
+                                style="color: #d71414;"></i> Generate Report</a></li>
+                    <li><a href="{{ url_for('find_medicine') }}"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                    </li>
+                    <li><a href="{{ url_for('sell_medicine_route') }}"><i class="fa-solid fa-egg"
+                                style="color: #d91717;"></i> Sell</a></li>
+                    <li><a href="{{ url_for('update_medicine_quantity_route') }}"><i class="fa-solid fa-capsules"></i>
+                            Update pills</a></li>
+                    <!-- <li><a href="{{ url_for('remove_medicine') }}"><i class="fa-solid fa-trash"></i> Remove</a></li> -->
+                    <li>
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
+                            <div class="dropdown-content">
+                                <!-- Replace the URLs with the appropriate URLs for the remove actions -->
+                                <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                                <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
+
+                                <!-- Add more options as needed -->
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-doctor"></i> Register</a></li>
+                    <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+       <!-- Update the button's onclick attribute to call the correct function -->
+
+
+
+        <div id="boxa">
+            <div id="box1">
+                <h1><img src="{{ url_for('static', filename='ambu.png') }}" alt="PharmaCO Icon"></h1>
+
+
+            </div>
+            <div id="box2">
+
+                <h1><img src="{{ url_for('static', filename='man.png') }}" alt="PharmaCO Icon"></h1>
+
+            </div>
+
+            <div id="box3">
+
+                <h1><img src="{{ url_for('static', filename='tab.png') }}" alt="PharmaCO Icon"></h1>
+
+
+            </div>
+
+        </div>
+
+
+        <h2><i class="fa-solid fa-truck-medical"></i> New Items In Stock's </h2>
+        {% if recently %}
+        <table class="items_in_stocks">
+            <tr>
+                <th>Medicine Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>MRP</th>
+                <th>Expiry</th>
+            </tr>
+            {% for recent in recently %}
+            <tr>
+                <td>{{ recent.name }}</td>
+                <td>{{ recent.price }}</td>
+                <td>{{ recent.quantity }}</td>
+                <td>{{ recent.mrp }}</td>
+                <td>{{ recent.expiry }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No Items Available.</p>
+        {% endif %}
+
+
+        <!-- Expired Medicines table -->
+        {% if expired_medicines %}
+        <h2><i class="fa-solid fa-biohazard"></i> Expired Medicines</h2>
+        <table class="expired">
+            <tr>
+                <th>Name</th>
+                <th>Expired</th>
+                <th>Quantity left</th>
+            </tr>
+            {% for medicine in expired_medicines %}
+            <tr>
+                <td>{{ medicine.name }}</td>
+                <td>{{ medicine.expiry }}</td>
+                <td>{{ medicine.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+
+        <h2><i class="fa-solid fa-vial"></i> Out of Stock's </h2>
+        {% if outstocks %}
+        <table class="outstock">
+            <tr>
+                <th>Medicine Name</th>
+                <th>Quantity</th>
+            </tr>
+            {% for outstock in outstocks %}
+            <tr>
+                <td>{{ outstock.name }}</td>
+                <td>{{ outstock.quantity }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No Items is Out of Stocks yet.</p>
+        {% endif %}
+
+
+
+
+        <footer>
+            <div class="footer">
+                {% if 'username' in session %}
+                <div class="box">
+                    <h4>Logged in as: {{ session['username'] }}</h4>
+                </div>
+                {% endif %}
+                &copy; 2023 SHIVAM MAHAJAN. All rights reserved.
+            </div>
+        </footer>
+    </body>
+
+</html>

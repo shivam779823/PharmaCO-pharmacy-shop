@@ -1,0 +1,278 @@
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-y: scroll;
+    /* Add a maximum height to the content to prevent it from taking the full viewport height */
+    max-height: calc(100vh - 100px); /* Adjust the value according to your needs */
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-y: scroll;
+    /* Add a maximum height to the content to prevent it from taking the full viewport height */
+    max-height: calc(100vh - 100px); /* Adjust the value according to your needs */
+}
+
+/* Apply styles to the title */
+h1 {
+    /* background-image: url('hero.jpg'); */
+    display: flex;
+    background-size: cover;
+    color: #19191a; /* Set the text color to white */
+    align-items: center;
+    margin: 0;
+    font-size: 24px;
+   
+   
+}
+
+ 
+
+h1 img {
+    width: 40px; /* Adjust the width to your preference */
+    height: 40px; /* Adjust the height to your preference */
+    margin-right: 0px; /* Add some space between the icon and the text */
+    margin-top: 0px;
+
+}
+ul.navbar {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    display: flex;
+  
+}
+
+/* Style each navigation item (list item) */
+ul.navbar li {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+/* Add styles to hyperlinks (anchors) inside the list items */
+ul.navbar li a {
+    text-decoration: none;
+    color: #121010;
+    padding: 6px 16px;
+    border-radius: 5px;
+    background-color: #07a3ce;
+    transition: background-color 0.3s ease;
+}
+
+/* Change the background color on hover */
+ul.navbar li a:hover {
+    background-color: #008729;
+}
+
+/* Add some spacing to the header */
+.header {
+    padding: 0px;
+}
+
+/* Center the navigation items */
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color:  #07a3ce;
+    color: #fff;
+    text-align: left;
+}
+/* Optional: Add some spacing between the content and the footer */
+.content {
+    padding-bottom: 0px;
+}
+
+h2 {
+    text-align: center ; 
+    font-size: 15px;  
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+h2 img{
+
+    width: 100px;
+    height: 100x;
+}
+h4 {
+    text-align: right;
+    
+}
+
+
+/* Style the dropdown container */
+.dropdown {
+    position: relative;
+}
+
+/* Style the "Remove" button */
+.dropbtn {
+    background-color: #07a3ce;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 20px;
+    border-radius: 5px;
+    margin-top: -7px; 
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Style the dropdown options */
+.dropdown-content a {
+    color: #333;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Add a hover effect to the dropdown options */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown content when the "Remove" button is hovered */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Optional: Adjust the positioning of the dropdown options */
+.dropdown-content {
+    top: 28px; /* Adjust the value as needed to align with the button */
+}
+
+
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+form {
+  margin-top: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Sell Medicine Form styles */
+#medicines-container {
+  margin-bottom: 10px;
+}
+
+.medicine-form {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.remove-button {
+  background-color: #f52213;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.remove-button:hover {
+  background-color: #d32f2f;
+}
+.sell-button {
+  background-color: #2196F3; /* Blue color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.sell-button:hover {
+  background-color: #0b4879; /* Darker blue color on hover */
+}
+
+/* Invoice button styles */
+.invoice-button {
+  text-align: center;
+  margin-top: 20px;
+}
+.invoice-button input[type="submit"] {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+
+}
+
+.invoice-button input[type="submit"]:hover {
+  background-color: #333;
+}
+
+
+/* Add More button styles */
+input[type="button"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+input[type="button"]:hover {
+  background-color: #45a049;
+}
+
+/* Sell button styles */
+/* input[type="submit"] {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+} */
+/* 
+input[type="submit"]:hover {
+  background-color: #0b4879;
+} */
+
+
+

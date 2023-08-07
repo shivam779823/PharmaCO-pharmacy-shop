@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PharmaCO</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sell.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+  <body>
+
+    <div class="header">
+      <h1><img src="{{ url_for('static', filename='icon-pharmaco.png') }}" alt="PharmaCO Icon">PharmaCO</h1>
+
+      <!-- Navigation buttons -->
+      <nav>
+        <ul class="navbar">
+          <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
+          <li><a href="{{ url_for('display_inventory') }}"><i class="fa-solid fa-truck-medical"></i>Inventory</a></li>
+          <li>
+            <div class="dropdown">
+              <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
+              <div class="dropdown-content">
+                <!-- Replace the URLs with the appropriate URLs for the remove actions -->
+                <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
+
+                <!-- Add more options as needed -->
+              </div>
+            </div>
+          </li>
+          <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-doctor"></i> Register</a></li>
+
+          <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+    <h2>Sell Medicine</h2>
+    {% if message %}
+    <h3>{{ message }}</h3>
+    {% endif %}
+    <!-- Customer Information Form -->
+    <form method="post" action="/sell_medicine">
+      <label for="customer_name">Customer Name:</label>
+      <input type="text" name="customer_name" required>
+      <label for="phone_no">Phone No:</label>
+      <input type="text" name="phone_no" required>
+      <label for="issued_by">Issued By:</label>
+      <input type="text" name="issued_by" required>
+
+      <!-- Sell Medicine Form -->
+      <div id="medicines-container">
+        <div class="medicine-form">
+          <label for="medicine_name">Medicine Name:</label>
+          <select name="medicine_name" required>
+            {% for medicine in medicines %}
+            <option value="{{ medicine.name }}">{{ medicine.name }}</option>
+            {% endfor %}
+          </select>
+          <label for="quantity">Quantity:</label>
+          <input type="number" name="quantity" min="1" required>
+          <input type="submit" class="remove-button" value="Remove" onclick="removeMedicineForm(this)">
+        </div>
+      </div>
+      <input type="button" value="Add More" onclick="addMedicineForm()">
+      <input type="submit" class="sell-button" value="Sell">
+    </form>
+    <form method="post" class="invoice-button" action="/invoice">
+      <input type="submit" value="Generate Invoice">
+    </form>
+    
+    <script>
+      function addMedicineForm() {
+        var container = document.getElementById('medicines-container');
+        var div = document.createElement('div');
+        div.className = 'medicine-form';
+        div.innerHTML = `
+        <label for="medicine_name">Medicine Name:</label>
+        <select name="medicine_name" required>
+          {% for medicine in medicines %}
+            <option value="{{ medicine.name }}">{{ medicine.name }}</option>
+          {% endfor %}
+        </select>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" min="1" required>
+        <input type="submit" class="remove-button" value="Remove" onclick="removeMedicineForm(this)">
+      `;
+        container.appendChild(div);
+      }
+
+      function removeMedicineForm(button) {
+        var container = document.getElementById('medicines-container');
+        container.removeChild(button.parentNode);
+      }
+    </script>
+  </body>
+
+</html>

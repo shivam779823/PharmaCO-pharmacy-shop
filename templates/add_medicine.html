@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PharmaCO</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='add.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <body>
+
+        <div class="header">
+            <h1><img src="{{ url_for('static', filename='icon-pharmaco.png') }}" alt="PharmaCO Icon">PharmaCO</h1>
+
+            <!-- Navigation buttons -->
+            <nav>
+                <ul class="navbar">
+                    <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
+                    <li><a href="{{ url_for('display_inventory') }}"><i
+                                class="fa-solid fa-truck-medical"></i>Inventory</a></li>
+                    <li><a href="{{ url_for('add_medicine') }}"><i class="fas fa-plus"></i> Add Medicine</a></li>
+                    <li><a href="{{ url_for('generate_report') }}"><i class="fa-solid fa-book-medical"
+                                style="color: #d71414;"></i> Generate Report</a></li>
+                    <li><a href="{{ url_for('find_medicine') }}"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                    </li>
+                    <li><a href="{{ url_for('sell_medicine_route') }}"><i class="fa-solid fa-egg"
+                                style="color: #d91717;"></i> Sell</a></li>
+                    <li><a href="{{ url_for('update_medicine_quantity_route') }}"><i class="fa-solid fa-capsules"></i>
+                            Update pills</a></li>
+                    <!-- <li><a href="{{ url_for('remove_medicine') }}"><i class="fa-solid fa-trash"></i> Remove</a></li> -->
+                    <li>
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
+                            <div class="dropdown-content">
+                                <!-- Replace the URLs with the appropriate URLs for the remove actions -->
+                                <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                                <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
+
+                                <!-- Add more options as needed -->
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-doctor"></i> Register</a></li>
+                    <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+
+
+
+    <h2>Add Medicine</h2>
+   
+
+    <div id="boxa">
+        <div id="box1"> 
+            
+            <form method="post" action="/add_medicine">
+                <div>
+                    <label for="name">Medicine Name:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div>
+                    <label for="price">Price:</label>
+                    <input type="number" name="price" step="0.01" required>
+                </div>
+                <div>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" required>
+                </div>
+        
+                <div>
+                    <label for="mrp">MRP:</label>
+                    <input type="number" name="mrp" step="0.01" required>
+                </div>
+        
+                <div>
+                    <label for="expiry">Expiry:</label>
+                    <input type="date" id="expiry" name="expiry" required>
+                </div>
+        
+        
+                <input type="submit" value="Add">
+        
+                    {% if message %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+            </form>
+
+
+        </div>
+        <div id="box2">
+
+        <h1><img src="{{ url_for('static', filename='bottle.png') }}" alt="PharmaCO Icon"></h1>
+
+        </div>
+         
+
+    </div>
+
+
+
+   
+<h2>Recently Added</h2>
+ {% if medicines %}
+    <table>
+        <tr>
+            <th>Medicine Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>MRP</th>
+            <th>Expiry</th>
+        </tr>
+        {% for medicine in medicines %}
+        <tr>
+            <td>{{ medicine.name }}</td>
+            <td>{{ medicine.price }}</td>
+            <td>{{ medicine.quantity }}</td>
+            <td>{{ medicine.mrp }}</td>
+            <td>{{ medicine.expiry }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>Inventory is empty.</p>
+    {% endif %}
+</body>
+</html>

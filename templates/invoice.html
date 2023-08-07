@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pharmacy Management System</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='in.css') }}">
+</head>
+
+<body>
+
+    <body>
+
+        <div class="header">
+            <h1><img src="{{ url_for('static', filename='icon-pharmaco.png') }}" alt="PharmaCO Icon">PharmaCO</h1>
+
+            <nav>
+                <ul class="navbar">
+                  <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
+                  <li><a href="{{ url_for('display_inventory') }}"><i class="fa-solid fa-truck-medical"></i>Inventory</a></li>
+                  <li>
+                    <div class="dropdown">
+                      <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
+                      <div class="dropdown-content">
+                        <!-- Replace the URLs with the appropriate URLs for the remove actions -->
+                        <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                        <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
+        
+                        <!-- Add more options as needed -->
+                      </div>
+                    </div>
+                  </li>
+                  <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-doctor"></i> Register</a></li>
+        
+                  <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                </ul>
+              </nav>
+        </div>
+
+
+        <div class="invoice-container">
+            <div class="invoice-header">
+                <h1>PharmaCO</h1>
+            </div>
+            <div class="customer-info">
+
+                {% if customers %}
+                <h2>Customer Information</h2>
+                {% for customer in customers %}
+                <p>Customer Name: {{ customer.customer_name }}</p>
+                <p>Phone Number: {{ customer.phone_no }}</p>
+                <p>Issued By: {{ customer.issued_by }}</p>
+                <p>Date: {{ date }}</p>
+
+                {% endfor %}
+                {% endif %}
+            </div>
+
+
+
+
+
+
+
+
+            {% if invoice_data %}
+            <h2>Invoice</h2>
+            <table class="invoice-table">
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity Sold</th>
+                    <th>Price</th>
+                    <th>Total Amount</th>
+                </tr>
+                {% for item in invoice_data.invoice_items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity_sold }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.total_amount }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" style="text-align:right;">Total Amount:</td>
+                    <td>{{ invoice_data.total_amount }}</td>
+                </tr>
+            </table>
+            {% endif %}
+        </div>
+    </body>
+
+</html>

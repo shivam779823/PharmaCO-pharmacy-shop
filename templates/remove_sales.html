@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pharmacy Management System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='add.css') }}">
+</head>
+<body>
+    <h1>PharmaCO</h1>
+
+    <div class="button-container">
+        <!-- Navigation buttons (omitted for brevity) -->
+    </div>
+
+    {% if message1 %}
+    <p>{{ message1 }}</p>
+    {% endif %}
+
+    <h3>Remove history</h3>
+    <form method="post" action="/remove_sales_history">
+        {% if medicines %}
+        <table>
+            <tr>
+                <th>Select</th>
+                <th>Medicine Name</th>
+                <th>Quantity Sold</th>
+                <th>Quantity left</th>
+                <th>Total Amount(Rs)</th>
+                <th>Date</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Issued By</th>
+            </tr>
+            {% for medicine in medicines %}
+            <tr>
+                <td><input type="checkbox" name="medicine_name" value="{{ medicine.name }}"></td>
+                <td>{{ medicine.name }}</td>
+                <td>{{ medicine.quantity_sold }}</td>
+                <td>{{ medicine.quantity_left }}</td>
+                <td>{{ medicine.total_amount }}</td>
+                <td>{{ medicine.datestamp }}</td>
+                <td>{{ medicine.customer_name }}</td>
+                <td>{{ medicine.phone_no }}</td>
+                <td>{{ medicine.issued_by }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Remove Selected history">
+        {% else %}
+        <p>No history.</p>
+        {% endif %}
+    </form>
+</body>
+</html>

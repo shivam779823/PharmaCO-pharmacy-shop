@@ -1,0 +1,84 @@
+/* Styles for the login page */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #08a4e7;
+    background-image: url(front.jpg);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 50px;
+    color: whitesmoke;
+    background-color: rgb(12, 140, 232);
+    padding: 20px;
+    
+}
+
+h1 img {
+    width: 60px; /* Adjust the width to your preference */
+    height: 60px; /* Adjust the height to your preference */
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-top: 0; 
+    margin: 0;/* Add some space between the icon and the text */
+
+}
+
+.form-container {
+    width: 400px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+form div {
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"],
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+
+    position: absolute;
+    bottom: 0;
+}
