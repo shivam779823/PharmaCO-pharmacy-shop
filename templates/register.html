@@ -20,12 +20,20 @@
             <div>
                 <input type="submit" value="Register">
             </div>
+            <div class="button-container">
+                <!-- <input type="submit" value="Login"> -->
+                <a href="/login"><button type="button">Login</button></a>
+            </div>
+
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
         </form>
     </div>
 
     
 <div>
-    <h2>pvt</h2>
+    <h2></h2>
 </div>
 </body>
 <footer>

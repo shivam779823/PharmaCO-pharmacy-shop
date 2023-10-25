@@ -7,9 +7,27 @@
 <body>
     <h1>PharmaCO</h1>
 
-    <div class="button-container">
-        <!-- Navigation buttons (omitted for brevity) -->
-    </div>
+    <nav>
+        <ul class="navbar">
+          <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
+          <li><a href="{{ url_for('display_inventory') }}"><i class="fa-solid fa-truck-medical"></i>Inventory</a></li>
+          <li>
+            <div class="dropdown">
+              <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
+              <div class="dropdown-content">
+                <!-- Replace the URLs with the appropriate URLs for the remove actions -->
+                <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
+
+                <!-- Add more options as needed -->
+              </div>
+            </div>
+          </li>
+          <li><a href="{{ url_for('register') }}"><i class="fa-solid fa-user-doctor"></i> Register</a></li>
+
+          <li><a href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+        </ul>
+      </nav>
 
     {% if message1 %}
     <p>{{ message1 }}</p>
@@ -21,24 +39,25 @@
         <table>
             <tr>
                 <th>Select</th>
+                <th>ID</th>
+                <th>Customer Name</th>
                 <th>Medicine Name</th>
                 <th>Quantity Sold</th>
-                <th>Quantity left</th>
                 <th>Total Amount(Rs)</th>
-                <th>Date</th>
-                <th>Customer Name</th>
+                <th>Date</th>               
                 <th>Phone</th>
                 <th>Issued By</th>
             </tr>
             {% for medicine in medicines %}
             <tr>
-                <td><input type="checkbox" name="medicine_name" value="{{ medicine.name }}"></td>
+                <td><input type="checkbox" name="id" value="{{ medicine.id }}"></td>
+                <td>{{ medicine.id }}</td>
+                <td>{{ medicine.customer_name }}</td>
                 <td>{{ medicine.name }}</td>
                 <td>{{ medicine.quantity_sold }}</td>
-                <td>{{ medicine.quantity_left }}</td>
                 <td>{{ medicine.total_amount }}</td>
                 <td>{{ medicine.datestamp }}</td>
-                <td>{{ medicine.customer_name }}</td>
+               
                 <td>{{ medicine.phone_no }}</td>
                 <td>{{ medicine.issued_by }}</td>
 

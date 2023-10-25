@@ -1,0 +1,119 @@
+/* Reset default styles */
+body, h1, h2, h3, h4, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+.header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Navigation styles */
+.navbar {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.navbar li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+.navbar li a:hover {
+    text-decoration: underline;
+}
+
+/* Invoice container styles */
+.invoice-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Invoice header styles */
+.invoice-header {
+    text-align: center;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.invoice-header h1 {
+    font-size: 24px;
+}
+
+/* Customer info styles */
+.customer-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.customer-info h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.customer-info p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Invoice table styles */
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoice-table th, .invoice-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.invoice-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.invoice-table td {
+    background-color: #fff;
+}
+
+.invoice-table tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+.invoice-table tr:last-child td {
+    font-weight: bold;
+}
