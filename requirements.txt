@@ -1,4 +1,0 @@
-flask
-reportlab
-db-sqlite3
-gunicorn

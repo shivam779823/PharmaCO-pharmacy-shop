@@ -22,39 +22,23 @@
                     <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-house-medical"></i> Home</a></li>
                     <li><a href="{{ url_for('display_inventory') }}"><i
                                 class="fa-solid fa-truck-medical"></i>Inventory</a></li>
-                    <!-- <li><a href="{{ url_for('add_medicine') }}"><i class="fas fa-plus"></i> Add Medicine</a></li> -->
-                    <li>
-                    <div class="dropdown">
-                        <button class="dropbtn"><i class="fas fa-plus"></i>Add Medicine</button>
-                        <div class="dropdown-content">
-                            <!-- Replace the URLs with the appropriate URLs for the remove actions -->
-                            <a href="{{ url_for('update_medicine_quantity_route', action='option1') }}">Update Pills</a>
-                            <a href="{{ url_for('add_medicine', action='option2') }}">Add New </a>
-
-                            <!-- Add more options as needed -->
-                        </div>
-                    </div>
-                    </li>
-
-
-
+                    <li><a href="{{ url_for('add_medicine') }}"><i class="fas fa-plus"></i> Add Medicine</a></li>
                     <li><a href="{{ url_for('generate_report') }}"><i class="fa-solid fa-book-medical"
                                 style="color: #d71414;"></i> Generate Report</a></li>
                     <li><a href="{{ url_for('find_medicine') }}"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
                     </li>
                     <li><a href="{{ url_for('sell_medicine_route') }}"><i class="fa-solid fa-egg"
                                 style="color: #d91717;"></i> Sell</a></li>
-                    <!-- <li><a href="{{ url_for('update_medicine_quantity_route') }}"><i class="fa-solid fa-capsules"></i>
-                            Update pills</a></li> -->
+                    <li><a href="{{ url_for('update_medicine_quantity_route') }}"><i class="fa-solid fa-capsules"></i>
+                            Update pills</a></li>
                     <!-- <li><a href="{{ url_for('remove_medicine') }}"><i class="fa-solid fa-trash"></i> Remove</a></li> -->
                     <li>
                         <div class="dropdown">
                             <button class="dropbtn"><i class="fa-solid fa-trash"></i> Remove</button>
                             <div class="dropdown-content">
                                 <!-- Replace the URLs with the appropriate URLs for the remove actions -->
-                                <a href="{{ url_for('remove_medicine', action='option1') }}">Medicine</a>
-                                <a href="{{ url_for('remove_sales_history', action='option2') }}">History</a>
-                                <a href="{{ url_for('remove_user', action='option3') }}">Users</a>
+                                <a href="{{ url_for('remove_medicine', action='option1') }}">Remove Medicine</a>
+                                <a href="{{ url_for('remove_sales_history', action='option2') }}">Delete History</a>
 
                                 <!-- Add more options as needed -->
                             </div>
@@ -90,6 +74,7 @@
 
         </div>
 
+
         <h2><i class="fa-solid fa-truck-medical"></i> New Items In Stock's </h2>
         {% if recently %}
         <table class="items_in_stocks">
@@ -114,35 +99,8 @@
         <p>No Items Available.</p>
         {% endif %}
 
-       
 
-
-    
-        <div class="container12">
-            
-            <h2><i class="fa-solid fa-vial"></i> Out of Stock's </h2>
-            {% if outstocks %}
-            <table class="outstock">
-                <tr>
-                    <th>Medicine Name</th>
-                    <th>Quantity</th>
-                </tr>
-                {% for outstock in outstocks %}
-                <tr>
-                    <td>{{ outstock.name }}</td>
-                    <td>{{ outstock.quantity }}</td>
-    
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            <p>No Items is Out of Stocks yet.</p>
-            {% endif %}
-        
-        </div>
-    
-        <div class="container12">
-              <!-- Expired Medicines table -->
+        <!-- Expired Medicines table -->
         {% if expired_medicines %}
         <h2><i class="fa-solid fa-biohazard"></i> Expired Medicines</h2>
         <table class="expired">
@@ -161,50 +119,27 @@
         </table>
         {% endif %}
 
-        </div>
 
-        <div class="container12">
-
-
-            <h2><i class="fa-solid fa-vial"></i> Users added </h2>
-        {% if users %}
+        <h2><i class="fa-solid fa-vial"></i> Out of Stock's </h2>
+        {% if outstocks %}
         <table class="outstock">
             <tr>
-                <th>username</th>
+                <th>Medicine Name</th>
+                <th>Quantity</th>
             </tr>
-            {% for x in users %}
+            {% for outstock in outstocks %}
             <tr>
-                <td>{{ x[1] }}</td>
+                <td>{{ outstock.name }}</td>
+                <td>{{ outstock.quantity }}</td>
+
             </tr>
             {% endfor %}
         </table>
         {% else %}
-        <p>No users added.</p>
+        <p>No Items is Out of Stocks yet.</p>
         {% endif %}
-        </div>
 
-        <div class="container12">
-            <!-- sell Medicines table -->
-      {% if sell %}
-      <h2><i class="fa-solid fa-biohazard"></i> Recently Sold</h2>
-      <table class="outstock">
-          <tr>
-              <th>Name</th>
-              <th>Quantity Sold</th>
-              <th>Date</th>
 
-          </tr>
-          {% for x in sell %}
-          <tr>
-              <td>{{ x.name }}</td>
-              <td>{{ x.quantity_sold }}</td>
-              <td>{{ x.datestamp }}</td>
-          </tr>
-          {% endfor %}
-      </table>
-      {% endif %}
-
-      </div>
 
 
         <footer>

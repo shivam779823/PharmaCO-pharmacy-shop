@@ -8,12 +8,7 @@
 </head>
 <body>
     <h1><img src="{{ url_for('static', filename='icon-pharmaco.png') }}" alt="PharmaCO Icon"> PharmaCO</h1>
-    <div class="preloader">
-        <div class="loader"></div>
-    </div>
-    
-    
-    <div class="form-container">
+        <div class="form-container">
         <form method="post" action="/login">
             <div>
                 <label for="username">Username:</label>
@@ -27,19 +22,10 @@
                 <input type="submit" value="Login">
                 <a href="/register"><button type="button">New User</button></a>
             </div>
-            {% if message %}
-            <p>{{ message }}</p>
-            {% endif %}
         </form>
     </div>
 
-    <script>
-        window.addEventListener("load", function () {
-            const preloader = document.querySelector(".preloader");
-            preloader.style.display = "none";
-        });
-    </script>
-    
+
     
 </body>
 <footer>

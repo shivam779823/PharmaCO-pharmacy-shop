@@ -16,6 +16,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle , Paragraph
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24) 
 
@@ -30,17 +31,19 @@ class Medicine:
         self.date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').date()
 
 
-
-class Transaction_details:
-    def __init__(self,id, customer_name, phone_no, issued_by,name,quantity_sold,total_amount,datestamp):
-        self.id = id
+class Sale:
+    def __init__(self, name, quantity_sold, quantity_left, total_amount, datestamp):
+        self.name = name
+        self.quantity_sold = quantity_sold
+        self.quantity_left = quantity_left
+        self.total_amount = total_amount
+        self.datestamp = datestamp
+class Customer:
+    def __init__(self, customer_name, phone_no, issued_by):
         self.customer_name = customer_name
         self.phone_no = phone_no
         self.issued_by = issued_by
-        self.name = name
-        self.quantity_sold = quantity_sold
-        self.total_amount = total_amount
-        self.datestamp = datestamp
+
         
 class PharmacyManagementSystem:
     def __init__(self):
@@ -69,17 +72,23 @@ class PharmacyManagementSystem:
                 password TEXT NOT NULL
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS sales (
+               id INTEGER PRIMARY KEY AUTOINCREMENT,
+               medicine_name TEXT NOT NULL,
+               quantity_sold INTEGER NOT NULL,
+               quantity_left INTEGER NOT NULL,
+               total_amount REAL NOT NULL,
+               datestamp TEXT NOT NULL
+            )
+        ''')
 
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS transaction_info(
+            CREATE TABLE IF NOT EXISTS customer (
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                customer_name TEXT NOT NULL,
                phone_no INTEGER NOT NULL,
-               issued_by TEXT NOT NULL,
-               medicine_name TEXT NOT NULL,
-               quantity_sold INTEGER NOT NULL,
-               total_amount REAL NOT NULL,
-               datestamp TEXT NOT NULL
+               issued_by TEXT NOT NULL
             )
         ''')
        
@@ -111,26 +120,6 @@ class PharmacyManagementSystem:
 
         return "Registration successful. You can now login."
 
-    def get_users(self):
-        connection = sqlite3.connect('pharmacy.db')
-        cursor = connection.cursor()
-
-        cursor.execute('SELECT * FROM users')
-        user_data = cursor.fetchall()
-
-        connection.close()
-
-        return user_data
-    
-    def remove_user(self,username):
-        connection = sqlite3.connect('pharmacy.db')
-        cursor = connection.cursor()
-        cursor.execute('DELETE FROM users WHERE id = ?', (username,))
-
-        connection.commit()
-        connection.close()
-        return "User removed success"
-      
     def verify_user(self, username, password):
         connection = sqlite3.connect('pharmacy.db')
         cursor = connection.cursor()
@@ -223,8 +212,8 @@ class PharmacyManagementSystem:
 
             cursor.execute('UPDATE medicines SET quantity = ? WHERE name = ?', (quantity_left, name))
 
-            # cursor.execute('INSERT INTO sales (medicine_name, quantity_sold, quantity_left, total_amount, datestamp) VALUES (?, ?, ?, ?, ?)',
-            #                (name, quantity, quantity_left, total_amount, datestamp))
+            cursor.execute('INSERT INTO sales (medicine_name, quantity_sold, quantity_left, total_amount, datestamp) VALUES (?, ?, ?, ?, ?)',
+                           (name, quantity, quantity_left, total_amount, datestamp))
 
             connection.commit()
             connection.close()
@@ -234,7 +223,62 @@ class PharmacyManagementSystem:
             connection.close()
             print(f"Not enough stock for '{name}'. Available: {current_quantity[0] if current_quantity else 0}")
    
-  
+    def customer_info(self,customer_name, phone_no ,issued_by):
+        connection = sqlite3.connect('pharmacy.db')
+        cursor = connection.cursor()
+        
+        if not customer_name:
+            customer_name = "Default Customer"
+        if not phone_no :
+            customer_name = 0000000000
+        if not issued_by:
+             issued_by = "pharmaCO"
+        
+        cursor.execute('INSERT INTO customer (customer_name, phone_no ,issued_by) VALUES (?, ?, ?)',
+                           (customer_name, phone_no ,issued_by))
+        connection.commit()
+        connection.close()
+
+    def get_customer(self):
+        connection = sqlite3.connect('pharmacy.db')
+        cursor = connection.cursor()
+
+        cursor.execute('''
+        SELECT * FROM customer
+        ''')
+
+        customer_data = cursor.fetchall()
+        connection.close()
+
+        customers = []  # List to store customer objects
+
+        if not customer_data:
+            return customers
+        else:
+            for custo_info in customer_data:
+                customer = Customer(*custo_info[1:])  # Create a Customer object from the data
+                customers.append(customer)
+
+            return customers
+
+
+    def get_customer_recent(self):
+        connection = sqlite3.connect('pharmacy.db')
+        cursor = connection.cursor()
+
+        cursor.execute('''
+            SELECT * FROM customer
+            ORDER BY id DESC LIMIT 1
+        ''')
+
+        customer_data = cursor.fetchone()
+        connection.close()
+
+        if not customer_data:
+            return None
+        else:
+            customer = Customer(*customer_data[1:])
+            return customer
 
 
     def display_inventory(self):
@@ -314,7 +358,18 @@ class PharmacyManagementSystem:
 
         print(f"Medicine '{name}' removed from the inventory.")
     
+    def remove_sales_history(self, medicine_name):
+        connection = sqlite3.connect('pharmacy.db')
+        cursor = connection.cursor()
+
+        cursor.execute('DELETE FROM sales WHERE medicine_name = ?', (medicine_name,))
+
+        connection.commit()
+        connection.close()
+
+        print(f"Transaction for '{medicine_name}' removed from sales history.")
   
+
     def recently_updated(self):
         connection = sqlite3.connect('pharmacy.db')
         cursor = connection.cursor()
@@ -337,76 +392,28 @@ class PharmacyManagementSystem:
             return medicines
     
 
-
-
-       
-    def add_transaction_deatils(self, customer_name,phone_no, issued_by,medicine_name, quantity_sold,total_amount):
-        connection = sqlite3.connect('pharmacy.db')
-        cursor = connection.cursor()
-        datestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        cursor.execute('''
-            INSERT INTO transaction_info(customer_name,phone_no, issued_by,medicine_name, quantity_sold,total_amount,datestamp)
-            VALUES (?, ?, ?, ?, ? , ? , ?)
-        ''', (customer_name,phone_no, issued_by,medicine_name, quantity_sold,total_amount,datestamp))
-
-        connection.commit()
-        connection.close()
-
-
-
-    def get_transaction_details(self):
+    def get_sales(self):
         connection = sqlite3.connect('pharmacy.db')
         cursor = connection.cursor()
 
         cursor.execute('''
-            SELECT id, customer_name, phone_no, issued_by, medicine_name, quantity_sold, total_amount, datestamp
-            FROM transaction_info
+        SELECT * FROM sales
         ''')
 
-        transaction_data = cursor.fetchall()
+        sales_data = cursor.fetchall()
         connection.close()
 
-        if not transaction_data:
+        if not sales_data:
             return []
-
-        transactions = []
-
-        for row in transaction_data:
-            id, customer_name, phone_no, issued_by, medicine_name, quantity_sold, total_amount, datestamp = row
-            sale = Transaction_details(id, customer_name, phone_no, issued_by, medicine_name, quantity_sold, total_amount, datestamp)
-            transactions.append(sale)
-
-        return transactions
-    
-    def remove_transaction_details(self, id):
-        connection = sqlite3.connect('pharmacy.db')
-        cursor = connection.cursor()
-
-        cursor.execute('DELETE FROM transaction_info WHERE id = ?', (id,))
-
-        connection.commit()
-        connection.close()
-
-
-
-    def get_customer_recent(self):
-        connection = sqlite3.connect('pharmacy.db')
-        cursor = connection.cursor()
-
-        cursor.execute('''
-            SELECT * FROM transaction_info 
-            ORDER BY id DESC LIMIT 1
-        ''')
-
-        customer_data = cursor.fetchone()
-        connection.close()
-
-        if not customer_data:
-            return None
         else:
-            customer = Transaction_details(*customer_data[0:])
-            return customer
+            sales = []
+            for sale_data in sales_data:
+                sale = Sale(*sale_data[1:])
+                sales.append(sale)
+            return sales
+
+  
+
 ############################################################################################
    
 pharmacy = PharmacyManagementSystem()
@@ -426,7 +433,6 @@ def login_required(f):
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    message = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -435,7 +441,7 @@ def login():
             session['username'] = username
             return redirect(url_for('home'))
         else:
-            return render_template('login.html', message='Invalid!! username or password')
+            return render_template('login.html', error='Invalid username or password')
 
     return render_template('login.html')
 
@@ -443,13 +449,12 @@ def login():
 # Register route
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    message=None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
         result = pharmacy.register_user(username, password)
-        return render_template('register.html', result=result ,message='New User Register Sucessfully!!')
+        return render_template('register.html', result=result)
 
     return render_template('register.html')
 
@@ -471,30 +476,12 @@ def logout():
 def home():
     all_medicines = pharmacy.display_inventory()
     recently= pharmacy.recently_updated() 
-    recently=recently[-10:]
     current_date = datetime.now().date()  # Convert current_date to datetime.date object
-    users=pharmacy.get_users()
+
     expired_medicines = [medicine for medicine in all_medicines if medicine.expiry < current_date]
     out_of_stock_medicines = [medicine for medicine in all_medicines if medicine.quantity == 0]
-    recently_sold=pharmacy.get_transaction_details()
-    recently_sold = recently_sold[-10:]
 
-
-    return render_template('index.html', medicines=all_medicines, expired_medicines=expired_medicines , recently=recently , outstocks=out_of_stock_medicines ,users=users,sell=recently_sold)
-
-
-@app.route('/remove_user', methods=['GET', 'POST'])  
-@login_required
-def remove_user():
-    message=None
-    all_users = pharmacy.get_users()
-    if request.method == 'POST':
-        selected_user = request.form.getlist('user_checkbox')
-
-        for username in selected_user:
-            pharmacy.remove_user(username)
-        message=f"{username} Removed Successfully! "
-    return render_template('remove_user.html',users=all_users,message=message)
+    return render_template('index.html', medicines=all_medicines, expired_medicines=expired_medicines , recently=recently , outstocks=out_of_stock_medicines)
 
 
 #add_medicine
@@ -578,19 +565,16 @@ def remove_sales_history():
     message1 = None
     history = None  # Add this line to initialize the history variable
     if request.method == 'POST':
-        id = request.form['id']
-        # customer_name = request.form['customer_name']
-        pharmacy.remove_transaction_details(id)
-        # pharmacy.remove_customer_info(customer_name)
-        message1 = f"History for ID '{id}' removed successfully!"
+        medicine_name = request.form['medicine_name']
+        pharmacy.remove_sales_history(medicine_name)
+        message1 = f"Sales history for '{medicine_name}' removed successfully!"
     
     # Fetch updated sales history after removal
-    # sales_history = pharmacy.get_sales()
-    x=pharmacy.get_transaction_details()
-    return render_template('remove_sales.html', message1=message1, medicines=x)
+    sales_history = pharmacy.get_sales()
+
+    return render_template('remove_sales.html', message1=message1, medicines=sales_history)
 
 
-#SeLL medicine
 @app.route('/sell_medicine', methods=['GET', 'POST'])
 @login_required
 def sell_medicine_route():
@@ -601,8 +585,10 @@ def sell_medicine_route():
         customer_name = request.form['customer_name']  # Get customer name from the form
         phone_no = request.form['phone_no']  # Get phone number from the form
         issued_by = request.form['issued_by'] 
+        pharmacy.customer_info(customer_name, phone_no, issued_by)
         message="Medicine's sold Successfully! , Now Generate Invoice "
         invoice = []  # List to store invoice data
+
         # Process the data as needed
         for name, quantity in zip(medicine_names, quantities):
             if name and quantity:
@@ -617,11 +603,8 @@ def sell_medicine_route():
                     })
                     # Perform the sell operation using pharmacy.sell_medicine()
                     pharmacy.sell_medicine(name, int(quantity))
-                    pharmacy.add_transaction_deatils(customer_name,phone_no, issued_by,name, int(quantity),total_amount)
-
 
         total_amount = sum(item['total_amount'] for item in invoice)
-
 
         # Store the invoice data in a session variable
         session['invoice'] = {
@@ -633,7 +616,7 @@ def sell_medicine_route():
     return render_template('sell_medicine.html', medicines=pharmacy.display_inventory())
 
 
-#Invoice
+
 @app.route('/invoice', methods=['GET', 'POST'])
 @login_required
 def invoice():
@@ -646,14 +629,15 @@ def invoice():
     return render_template('invoice.html', customers=customers, invoice_data=invoice_data , date=date)
 
 
-#Display Inventory
+
+
+
+
 @app.route('/display_inventory')
 @login_required
 def display_inventory():
     return render_template('display_inventory.html', medicines=pharmacy.display_inventory())
 
-
-#Generate Report
 @app.route('/generate_report', methods=['GET', 'POST'])
 @login_required
 def generate_report():
