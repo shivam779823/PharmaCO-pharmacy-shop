@@ -277,3 +277,30 @@ h4 {
 .dropdown-content {
     top: 28px; /* Adjust the value as needed to align with the button */
 }
+
+
+
+
+
+
+.container12 {
+    width: 45%; /* Adjust the width as needed */
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+/* 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+
+} */
