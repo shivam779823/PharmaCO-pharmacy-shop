@@ -57,7 +57,7 @@ Special thanks to OpenAI for providing the AI technology used in this project.
 
 Thanks to the Flask community for the web framework.
 
-Icon credits: Font Awesome
+Icon credits: Font Awesome.
 
 Contact
 For any inquiries or support, please contact pharmacy@example.com.
