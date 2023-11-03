@@ -420,9 +420,6 @@ def login_required(f):
     return decorated_function
 
 
-
-##############################################################################################
-
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -463,6 +460,9 @@ def logout():
 
 
 #########################################################################
+
+
+
 
 #HOME
 
@@ -667,7 +667,7 @@ def generate_report():
 
     return render_template('generate_report.html')
 
-
+##############################################################################################
 
 if __name__ == '__main__':
     app.run(debug=True)

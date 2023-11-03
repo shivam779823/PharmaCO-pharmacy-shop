@@ -36,7 +36,7 @@ Open your web browser and go to http://localhost:5000 to access the application.
 Usage
 After running the application, you will see the home page with navigation buttons to different sections of the system.
 
-Use the "Inventory" section to manage the medicines in stock.
+Use the "Inventory" section to manage the medicines in stock
 
 Use the "Generate Report" section to view various reports related to the inventory.
 
