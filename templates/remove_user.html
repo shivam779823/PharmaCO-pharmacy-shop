@@ -24,13 +24,15 @@
         <table>
             <tr>
                 <th>Select</th>
+                <th>Id</th>
                 <th>Username</th>
                 <!-- Add more user details as needed -->
             </tr>
-            {% for user in users %}
+            {% for x in users %}
             <tr>
-                <td><input type="checkbox" name="user_checkbox" value="{{ user.username }}"></td>
-                <td>{{ user.username }}</td>
+                <td><input type="checkbox" name="user_checkbox" value="{{ x[0] }}"></td>
+                <td>{{ x[0] }}</td>
+                <td>{{ x[1] }}</td>
                 <!-- Add more user details as needed -->
             </tr>
             {% endfor %}
